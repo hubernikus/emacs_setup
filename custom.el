@@ -46,7 +46,7 @@
 ;; (when (version<= "26.0.50" emacs-version )
   ;; (global-display-line-numbers-mode))
 
-;; (global-linum-mode 1)
+(global-linum-mode 1)
 
 ;; (message "Prelude is ready to do thy bidding, Master %s!" current-user)
 
@@ -92,17 +92,6 @@
   (setq conda-anaconda-home (expand-file-name "~/anaconda3"))
   (setq conda-env-home-directory (expand-file-name "~/anaconda3")))
 
-;; (setenv "PATH" "/home/lukas/anaconda3/bin:/home/lukas/bin:/home/lukas/.local/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin:/usr/games:/usr/local/game")
-
-;; Anaconda in python
-;; (setenv "WORKON_HOME" "/Users/Pablo/anaconda/envs")
-;; (pyvenv-mode 1)
-;; (use-package conda
-			 ;; :ensure t
-			 ;; :init
-			 ;; (setq conda-anaconda-home (expand-file-name "~/miniconda3"))
-			 ;; (setq conda-env-home-directory (expand-file-name "~/miniconda3")))
-
 
 ;; show available keybindings after you start typing
 ;; (require 'which-key)
@@ -113,64 +102,70 @@
 
 ;; Redundant I think
 (require 'package)
-;; (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/"))
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
 (when (memq window-system '(mac ns x))
   (exec-path-from-shell-initialize))
 
-
-;; (use-package elpy
-			 ;; :ensure t
-			 ;; :init
-			 ;; (elpy-enable))
-
 ;; Install elpy on command line / linux. Check github/wiki for more info.
 (elpy-enable)
 (setenv "WORKON_HOME" "/home/user/anaconda3/envs/")
 
-;; M-x package-install lsp-mode
-(require 'company-lsp)
-(require 'lsp-mode)
+;; Only use when js / vue etc installed
+;; ;; M-x package-install lsp-mode
+;; (require 'company-lsp)
+;; (require 'lsp-mode)
 
-;; for completions
-(use-package company-lsp
-  :after lsp-mode
-  :config (push 'company-lsp company-backends))
+;; ;; for completions
+;; (use-package company-lsp
+;;   :after lsp-mode
+;;   :config (push 'company-lsp company-backends))
 
-;; M-x package isntall vue-mode
-(use-package vue-mode
-  :mode "\\.vue\\'"
-  :config
-  (add-hook 'vue-mode-hook #'lsp))
+;; ;; M-x package isntall vue-mode
+;; (use-package vue-mode
+;;   :mode "\\.vue\\'"
+;;   :config
+;;   (add-hook 'vue-mode-hook #'lsp))
 
-;; Setup json and vue intent 
-(setq-default indent-tabs-mode nil)
-(setq js-indent-level 2)
-
-;;; Python specialized rx is modified to include cython parts
-;; Disable background (?)
-(custom-set-faces
- ;; custom-set-faces was added by Custom.
- ;; If you edit it by hand, you could mess it up, so be careful.
- ;; Your init file should contain only one such instance.
- ;; If there is more than one, they won't work right.
- '(mmm-default-submode-face ((t (:background nil)))))
-
-;; (setq mweb-tags 
-      ;; '((php-mode "<\\?php\\|<\\? \\|<\\?=" "\\?>")
-        ;; (js-mode  "<script[^>]*>" "</script>")
-        ;; (css-mode "<style[^>]*>" "</style>")))
-;; (setq-default tab-width 2)
-;; (setq indent-line-function 'insert-tab)
-
+;; ;; Setup json and vue intent 
 ;; (setq-default indent-tabs-mode nil)
-;; (setq-default tab-width 4)
+;; (setq js-indent-level 2)
 
-;; (require 'python)
-
+;; Modified python mode to include cython (first edition, to be completed...)
 (add-to-list 'load-path "~/.emacs.d/personal/python-mode-20210408.800/")
 (require 'python-mode)
+
+;; Make sure that snake_case stops at underscore (easier navigation)
+;; Keep underscores within a word boundary
+;; (add-hook 'python-mode-hook #'superword-mode)
+;; (add-hook 'python-mode-hook
+          ;; (lambda () (modify-syntax-entry ?_ "w" python-mode-syntax-table)))
+;; (use-package python-mode
+  ;; :ensure t
+  ;; :config
+  ;; (py-underscore-word-syntax-p-off))
+;; (modify-syntax-entry ?_ "_" python-mode-syntax-table) ;; "_" means symbol syntax
+;; (add-hook 'python-mode-hook  (lambda () (modify-syntax-entry ?_ "_" python-mode-syntax-table)))
+;; (defun change-major-mode-hook () (modify-syntax-entry ?_ "_")
+;; (modify-syntax-entry ?_ "_")
+;; NOT sure this actually works...
+(defun change-major-mode-hook () (modify-syntax-entry ?_ "_"))
+							   
+(defun my-insert-tab-char ()
+  "Insert a tab char. (ASCII 9, \t)"
+  (interactive)
+  ;; (insert (make-string )
+  (insert "    ")
+)
+
+(global-set-key (kbd "C-<tab>") 'my-insert-tab-char)
+
+(setq smerge-command-prefix "\C-ch")
+
+;; (add-to-list 'package-archives
+;; '("melpa" . "http://melpa.org/packages/") t)
+;; Install auto-complete
+(ac-config-default)
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -179,6 +174,14 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-    (python-mode cython-mode dockerfile-mode yaml-mode csv-mode scss-mode company-lsp lsp-mode vue-mode json-mode markdown-mode puppet-mode conda use-package pyenv-mode yasnippet-snippets find-file-in-project elpy zop-to-char zenburn-theme which-key volatile-highlights undo-tree super-save smartrep smartparens projectile operate-on-number nlinum move-text magit imenu-anywhere hl-todo guru-mode gitignore-mode gitconfig-mode git-timemachine gist flycheck expand-region exec-path-from-shell editorconfig easy-kill discover-my-major diminish diff-hl crux browse-kill-ring anzu ag ace-window))))
+	(feature-mode auto-complete yaml-mode cython-mode python-mode zop-to-char zenburn-theme which-key volatile-highlights use-package undo-tree super-save smartrep smartparens projectile operate-on-number move-text markdown-mode magit json-mode imenu-anywhere hl-todo guru-mode gitignore-mode gitconfig-mode git-timemachine gist flycheck expand-region exec-path-from-shell elpy editorconfig easy-kill dockerfile-mode discover-my-major diminish diff-hl crux conda browse-kill-ring beacon anzu ace-window)))
+ '(safe-local-variable-values (quote ((flycheck-disabled-checkers emacs-lisp-checkdoc)))))
+
+(custom-set-faces
+ ;; custom-set-faces was added by Custom.
+ ;; If you edit it by hand, you could mess it up, so be careful.
+ ;; Your init file should contain only one such instance.
+ ;; If there is more than one, they won't work right.
+ )
 
 (message "Custom master is ready..")
