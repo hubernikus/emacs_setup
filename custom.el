@@ -97,11 +97,15 @@
 (require 'package)
 (add-to-list 'package-archives '("melpa" . "https://melpa.org/packages/") t)
 
-(when (memq window-system '(mac ns x))
-  (exec-path-from-shell-initialize))
+;; (when (memq window-system '(mac ns x))
+  ;; (exec-path-from-shell-initialize))
 
 ;; Install elpy on command line / linux. Check github/wiki for more info.
 ;; (elpy-enable)
+
+(require 'python)
+(require 'python-mode)
+
 
 (use-package pyvenv
   :ensure t
@@ -122,51 +126,44 @@
 				(setq python-shell-interpreter "ipython"))))
   )
 
+;; (setq python-shell-interpreter "ipython")
 (when (executable-find "ipython")
   (setq python-shell-interpreter "ipython"))
 
 (setq python-shell-interpreter "ipython"
 	  python-shell-interpreter-args "--simple-prompt -i")
 
-;; (setenv "WORKON_HOME" "/home/user/anaconda3/envs/")
+(set-language-environment "UTF-8")
 
-;; Only use when js / vue etc installed
-;; ;; M-x package-install lsp-mode
-;; (require 'company-lsp)
-;; (require 'lsp-mode)
+;; Update execution of [py-execute-buffer]
+(setq-default
+     py-shell-name          "ipython" ;; \ Default value under Unixes
+	 py-python-command      "ipython" ;; /
+	 ;; py-python-command-args '("-i" "/absolute/path/to/manage.py" "shell_plus")
+	 )
 
-;; ;; for completions
-;; (use-package company-lsp
-;;   :after lsp-mode
-;;   :config (push 'company-lsp company-backends))
+(use-package python-black
+  :demand t
+  :after python
+  :hook (python-mode . python-black-on-save-mode-enable-dwim)
+  )
 
-;; ;; M-x package isntall vue-mode
-;; (use-package vue-mode
-;;   :mode "\\.vue\\'"
-;;   :config
-;;   (add-hook 'vue-mode-hook #'lsp))
+(use-package elpy
+  :ensure t
+  :defer t
+  :init
+  (advice-add 'python-mode :before 'elpy-enable))
 
-;; ;; Setup json and vue intent 
-;; (setq-default indent-tabs-mode nil)
-;; (setq js-indent-level 2)
+;; (add-hook 'python-mode-hook
+;; (lambda () (local-set-key (kbd "C-c c") 'run-python)))
+;; (defn py-execute-buffer () 'run-python)
 
 ;; Modified python mode to include cython (first edition, to be completed...)
-(add-to-list 'load-path "~/.emacs.d/personal/python-mode-20210408.800/")
-(require 'python-mode)
+;; (add-to-list 'load-path "~/.emacs.d/personal/python-mode-20210408.800/")
+
 
 ;; Make sure that snake_case stops at underscore (easier navigation)
-;; Keep underscores within a word boundary
-;; (add-hook 'python-mode-hook #'superword-mode)
-;; (add-hook 'python-mode-hook
-          ;; (lambda () (modify-syntax-entry ?_ "w" python-mode-syntax-table)))
-;; (use-package python-mode
-  ;; :ensure t
-  ;; :config
-  ;; (py-underscore-word-syntax-p-off))
-;; (modify-syntax-entry ?_ "_" python-mode-syntax-table) ;; "_" means symbol syntax
-;; (add-hook 'python-mode-hook  (lambda () (modify-syntax-entry ?_ "_" python-mode-syntax-table)))
-;; (defun change-major-mode-hook () (modify-syntax-entry ?_ "_")
-;; (modify-syntax-entry ?_ "_")
+
 ;; NOT sure this actually works...
 (defun change-major-mode-hook () (modify-syntax-entry ?_ "_"))
 							   
@@ -214,12 +211,6 @@
 	 (TeX-master . "main")
 	 (flycheck-disabled-checkers emacs-lisp-checkdoc))))
  )
-
-;; (custom-set-variables
- ;; '(package-selected-packages
-   ;; (quote
-	;; (yasnippet-snippets find-file-in-project elpy zop-to-char zenburn-theme yaml-mode which-key vue-mode volatile-highlights use-package undo-tree super-save smartrep smartparens scss-mode pyenv-mode projectile operate-on-number nlinum move-text magit json-mode imenu-anywhere hl-todo guru-mode gitignore-mode gitconfig-mode git-timemachine gist flycheck expand-region exec-path-from-shell editorconfig easy-kill discover-my-major diminish diff-hl csv-mode crux company-lsp browse-kill-ring anzu ag ace-window))))
-
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
