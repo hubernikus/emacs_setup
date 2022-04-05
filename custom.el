@@ -78,19 +78,19 @@
 (require 'use-package)
 
 ;; (pyenv-mode)
-(use-package pyvenv
-			 :ensure t
-			 :init
+;; (use-package pyvenv
+			 ;; :ensure t
+			 ;; :init
 			 ;; (setenv "WORKON_HOME" "/home/__NAME__/anaconda/envs")
-			 (setenv "WORKON_HOME" "/home/lukas/anaconda/envs")
-			 (pyvenv-mode 1)
-			 (pyvenv-tracking-mode 1))
+			 ;; (setenv "WORKON_HOME" "/home/lukas/anaconda/envs")
+			 ;; (pyvenv-mode 1)
+			 ;; (pyvenv-tracking-mode 1))
 
-(use-package conda
-  :ensure t
-  :init
-  (setq conda-anaconda-home (expand-file-name "~/anaconda3"))
-  (setq conda-env-home-directory (expand-file-name "~/anaconda3")))
+;; (use-package conda
+  ;; :ensure t
+  ;; :init
+  ;; (setq conda-anaconda-home (expand-file-name "~/anaconda3"))
+  ;; (setq conda-env-home-directory (expand-file-name "~/anaconda3")))
 
 
 ;; show available keybindings after you start typing
@@ -109,7 +109,7 @@
 
 ;; Install elpy on command line / linux. Check github/wiki for more info.
 (elpy-enable)
-(setenv "WORKON_HOME" "/home/user/anaconda3/envs/")
+;; (setenv "WORKON_HOME" "/home/user/anaconda3/envs/")
 
 ;; Only use when js / vue etc installed
 ;; ;; M-x package-install lsp-mode
@@ -174,8 +174,7 @@
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
    (quote
-	(feature-mode auto-complete yaml-mode cython-mode python-mode zop-to-char zenburn-theme which-key volatile-highlights use-package undo-tree super-save smartrep smartparens projectile operate-on-number move-text markdown-mode magit json-mode imenu-anywhere hl-todo guru-mode gitignore-mode gitconfig-mode git-timemachine gist flycheck expand-region exec-path-from-shell elpy editorconfig easy-kill dockerfile-mode discover-my-major diminish diff-hl crux conda browse-kill-ring beacon anzu ace-window)))
- '(safe-local-variable-values (quote ((flycheck-disabled-checkers emacs-lisp-checkdoc)))))
+	(yasnippet-snippets find-file-in-project elpy zop-to-char zenburn-theme yaml-mode which-key vue-mode volatile-highlights use-package undo-tree super-save smartrep smartparens scss-mode pyenv-mode projectile operate-on-number nlinum move-text magit json-mode imenu-anywhere hl-todo guru-mode gitignore-mode gitconfig-mode git-timemachine gist flycheck expand-region exec-path-from-shell editorconfig easy-kill discover-my-major diminish diff-hl csv-mode crux company-lsp browse-kill-ring anzu ag ace-window))))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
