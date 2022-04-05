@@ -8,6 +8,8 @@
 (add-to-list 'auto-mode-alist '("\\.urdf\\'" . xml-mode)) ;; URDF -- Unified Robot Description Format
 (add-to-list 'auto-mode-alist '("\\.urdf\\'" . xml-mode)) ;; ROS -- configuration files
 
+(add-to-list 'auto-mode-alist '("\\CMakeLists.txt\\'" . yaml-mode))
+
 ;; Custom hot key
 (defun toggle-comment-on-line ()
   "comment or uncomment current line"
@@ -15,7 +17,8 @@
   (comment-or-uncomment-region (line-beginning-position) (line-end-position)))
 
 ;; (global-set-key (kbd "C-'") 'toggle-comment-on-line)
-(global-set-key (kbd "C-;") 'toggle-comment-on-line)
+(global-set-key (kbd "C-;") 'comment-line)
+;; (global-set-key (kbd "C-j") 'toggle-comment-on-line)
 (global-set-key (kbd "C-j") 'toggle-comment-on-line)
 ;; (global-set-key (kbd "C-j") 'newline)
 ;; Which one is better??? try out and change
@@ -30,8 +33,6 @@
   (setq c-basic-offset 2)
   (c-set-offset 'substatement-open 0))
 (add-hook 'c++-mode-hook 'my-c++-mode-hook)
-
-(add-to-list 'auto-mode-alist '("\\CMakeLists.txt\\'" . yaml-mode))
 
 ;; Load faster
 (setq xterm-query-timeout nil)
@@ -60,11 +61,6 @@
 (setq c-default-style "user") ;; DOES NOT WORK
 (setq c-indentation-style "user")
 
-(when (executable-find "ipython")
-  (setq python-shell-interpreter "ipython"))
-
-(setq python-shell-interpreter "ipython"
-	  python-shell-interpreter-args "--simple-prompt -i")
 
 ;; Python Hook
 (add-hook 'python-mode-hook
@@ -72,7 +68,6 @@
                       (setq indent-tabs-mode nil
                             tab-width 2))))
 
-;; (add-hook 'python-mode-hook 'anaconda-mode)
 ;; (package-install 'use-package)
 (require 'use-package)
 
@@ -91,7 +86,6 @@
   ;; (setq conda-anaconda-home (expand-file-name "~/anaconda3"))
   ;; (setq conda-env-home-directory (expand-file-name "~/anaconda3")))
 
-
 ;; show available keybindings after you start typing
 ;; (require 'which-key)
 ;; (which-key-mode +1)
@@ -108,6 +102,32 @@
 
 ;; Install elpy on command line / linux. Check github/wiki for more info.
 ;; (elpy-enable)
+
+(use-package pyvenv
+  :ensure t
+  :config
+  (pyvenv-mode t)
+  
+  ;; (pyvenv-tracking-mode 1)
+  
+  ;; Set correct Python interpreter
+  (setq pyvenv-post-activate-hooks
+        (list
+		 (lambda ()
+		   (setq python-shell-interpreter
+				 (concat pyvenv-virtual-env "bin/ipython")))))
+  
+  (setq pyvenv-post-deactivate-hooks
+        (list (lambda ()
+				(setq python-shell-interpreter "ipython"))))
+  )
+
+(when (executable-find "ipython")
+  (setq python-shell-interpreter "ipython"))
+
+(setq python-shell-interpreter "ipython"
+	  python-shell-interpreter-args "--simple-prompt -i")
+
 ;; (setenv "WORKON_HOME" "/home/user/anaconda3/envs/")
 
 ;; Only use when js / vue etc installed
@@ -165,13 +185,41 @@
 ;; python-cell
 ;; python-black
 
+;; Don't break lines in the middle of a word
+;; (add-hook 'tex-mode-hook (visual-line-mode t))
+(add-hook 'plain-text-mode-hook (visual-line-mode t))
+;; Latex/fast_obstxbacle_avoidance/
+(add-hook 'latex-mode-hook #'visual-line-mode)
+;; (add-hook 'LaTeX-mode-hook #'visual-line-mode)
+;; (global-visual-line-mode t)
+
+;; (add-to-list 'package-archives
+;; '("melpa" . "http://melpa.org/packages/") t)
+
+;; Install auto-complete
+;; (ac-config-default)
+
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   '(zop-to-char zenburn-theme yaml-mode which-key web-mode volatile-highlights use-package undo-tree super-save smartrep smartparens rainbow-mode rainbow-delimiters pyvenv pythonic python-mode python-cell python-black projectile operate-on-number nlinum move-text magit lsp-ui json-mode js2-mode imenu-anywhere hl-todo guru-mode git-timemachine git-modes gist flycheck expand-region exec-path-from-shell elisp-slime-nav editorconfig easy-kill discover-my-major diminish diff-hl crux counsel company browse-kill-ring anzu ag ace-window)))
+   (quote
+	(yasnippet-snippets find-file-in-project csv-mode feature-mode auto-complete yaml-mode python-mode zop-to-char zenburn-theme which-key volatile-highlights use-package undo-tree super-save smartrep smartparens projectile operate-on-number move-text markdown-mode magit json-mode imenu-anywhere hl-todo guru-mode gitignore-mode gitconfig-mode git-timemachine gist flycheck expand-region exec-path-from-shell elpy editorconfig easy-kill dockerfile-mode discover-my-major diminish diff-hl crux browse-kill-ring beacon anzu ace-window)))
+ '(safe-local-variable-values
+   (quote
+	((TeX-master . "../main")
+	 (TeX-master . t)
+	 (TeX-master . "main")
+	 (flycheck-disabled-checkers emacs-lisp-checkdoc))))
+ )
+
+;; (custom-set-variables
+ ;; '(package-selected-packages
+   ;; (quote
+	;; (yasnippet-snippets find-file-in-project elpy zop-to-char zenburn-theme yaml-mode which-key vue-mode volatile-highlights use-package undo-tree super-save smartrep smartparens scss-mode pyenv-mode projectile operate-on-number nlinum move-text magit json-mode imenu-anywhere hl-todo guru-mode gitignore-mode gitconfig-mode git-timemachine gist flycheck expand-region exec-path-from-shell editorconfig easy-kill discover-my-major diminish diff-hl csv-mode crux company-lsp browse-kill-ring anzu ag ace-window))))
+
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
