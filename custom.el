@@ -6,7 +6,7 @@
 (add-to-list 'auto-mode-alist '("\\.world\\'" . xml-mode))
 (add-to-list 'auto-mode-alist '("\\.launch\\'" . xml-mode)) ;; ROS launch files
 (add-to-list 'auto-mode-alist '("\\.urdf\\'" . xml-mode)) ;; URDF -- Unified Robot Description Format
-(add-to-list 'auto-mode-alist '("\\.urdf\\'" . xml-mode)) ;; ROS -- configurtation files
+(add-to-list 'auto-mode-alist '("\\.urdf\\'" . xml-mode)) ;; ROS -- configuration files
 
 ;; Custom hot key
 (defun toggle-comment-on-line ()
@@ -23,9 +23,7 @@
 
 (menu-bar-mode -1) 
 
-;; Set white space mode off (TODD)
-;; (global-whitespace-mode 0)
-;; (whitespace-mode 0)
+;; Set white space mode off (TOD0)
 (setq prelude-whitespace nil)
 
 (defun my-c++-mode-hook ()
@@ -46,7 +44,8 @@
 ;; (when (version<= "26.0.50" emacs-version )
   ;; (global-display-line-numbers-mode))
 
-(global-linum-mode 1)
+;; Linum Mode
+(global-linum-mode 0)
 
 ;; (message "Prelude is ready to do thy bidding, Master %s!" current-user)
 
@@ -108,7 +107,7 @@
   (exec-path-from-shell-initialize))
 
 ;; Install elpy on command line / linux. Check github/wiki for more info.
-(elpy-enable)
+;; (elpy-enable)
 ;; (setenv "WORKON_HOME" "/home/user/anaconda3/envs/")
 
 ;; Only use when js / vue etc installed
@@ -162,10 +161,9 @@
 
 (setq smerge-command-prefix "\C-ch")
 
-;; (add-to-list 'package-archives
-;; '("melpa" . "http://melpa.org/packages/") t)
-;; Install auto-complete
-(ac-config-default)
+;; TODO
+;; python-cell
+;; python-black
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
@@ -173,8 +171,7 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-	(yasnippet-snippets find-file-in-project elpy zop-to-char zenburn-theme yaml-mode which-key vue-mode volatile-highlights use-package undo-tree super-save smartrep smartparens scss-mode pyenv-mode projectile operate-on-number nlinum move-text magit json-mode imenu-anywhere hl-todo guru-mode gitignore-mode gitconfig-mode git-timemachine gist flycheck expand-region exec-path-from-shell editorconfig easy-kill discover-my-major diminish diff-hl csv-mode crux company-lsp browse-kill-ring anzu ag ace-window))))
+   '(zop-to-char zenburn-theme yaml-mode which-key web-mode volatile-highlights use-package undo-tree super-save smartrep smartparens rainbow-mode rainbow-delimiters pyvenv pythonic python-mode python-cell python-black projectile operate-on-number nlinum move-text magit lsp-ui json-mode js2-mode imenu-anywhere hl-todo guru-mode git-timemachine git-modes gist flycheck expand-region exec-path-from-shell elisp-slime-nav editorconfig easy-kill discover-my-major diminish diff-hl crux counsel company browse-kill-ring anzu ag ace-window)))
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
