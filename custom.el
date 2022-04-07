@@ -16,14 +16,6 @@
   (interactive)
   (comment-or-uncomment-region (line-beginning-position) (line-end-position)))
 
-;; (global-set-key (kbd "C-'") 'toggle-comment-on-line)
-(global-set-key (kbd "C-;") 'comment-line)
-;; (global-set-key (kbd "C-j") 'toggle-comment-on-line)
-(global-set-key (kbd "C-j") 'toggle-comment-on-line)
-;; (global-set-key (kbd "C-j") 'newline)
-;; Which one is better??? try out and change
-(global-set-key (kbd "C-m") 'newline)
-
 (menu-bar-mode -1) 
 
 ;; Set white space mode off (TOD0)
@@ -195,6 +187,17 @@
 
 ;; Install auto-complete
 ;; (ac-config-default)
+
+;; Global command definition
+(global-set-key (kbd "C-'") 'comment-line)
+(global-set-key (kbd "C-;") 'comment-line)
+(global-set-key (kbd "C-j") 'toggle-comment-on-line)
+;; (global-set-key (kbd "C-m") 'toggle-comment-on-line)
+;; (global-set-key (kbd "C-j") 'newline)
+;; Which one is better??? try out and change
+;; (global-set-key (kbd "C-m") 'newline)
+
+
 
 (custom-set-variables
  ;; custom-set-variables was added by Custom.
