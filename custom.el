@@ -31,6 +31,9 @@
 
 ;; Chose theme
 (load-theme 'manoj-dark)
+;; Check out the theme further, put cursor on text and `C-u C-x =`
+
+
 
 ;;
 ;; (setq display-line-numbers-mode t)
@@ -60,6 +63,15 @@
                       (setq indent-tabs-mode nil
                             tab-width 2))))
 
+(require 'python-cell)
+(add-hook 'python-mode-hook #'python-cell-mode 1)
+
+;; (setq python-cell-mode-map
+	  ;; (let ((map (make-sparse-keymap)))
+		;; (define-key map (kbd "C-<S-return>") 'python-cell-shell-send-cell)
+		;; ))
+	  
+      
 ;; (package-install 'use-package)
 (require 'use-package)
 
@@ -205,21 +217,19 @@
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
  '(package-selected-packages
-   (quote
-	(yasnippet-snippets find-file-in-project csv-mode feature-mode auto-complete yaml-mode python-mode zop-to-char zenburn-theme which-key volatile-highlights use-package undo-tree super-save smartrep smartparens projectile operate-on-number move-text markdown-mode magit json-mode imenu-anywhere hl-todo guru-mode gitignore-mode gitconfig-mode git-timemachine gist flycheck expand-region exec-path-from-shell elpy editorconfig easy-kill dockerfile-mode discover-my-major diminish diff-hl crux browse-kill-ring beacon anzu ace-window)))
+   '(yasnippet-snippets find-file-in-project csv-mode feature-mode auto-complete yaml-mode python-mode zop-to-char zenburn-theme which-key volatile-highlights use-package undo-tree super-save smartrep smartparens projectile operate-on-number move-text markdown-mode magit json-mode imenu-anywhere hl-todo guru-mode gitignore-mode gitconfig-mode git-timemachine gist flycheck expand-region exec-path-from-shell elpy editorconfig easy-kill dockerfile-mode discover-my-major diminish diff-hl crux browse-kill-ring beacon anzu ace-window))
+ '(python-cell-highlight-cell t)
  '(safe-local-variable-values
-   (quote
-	((TeX-master . "../main")
+   '((TeX-master . "../main")
 	 (TeX-master . t)
 	 (TeX-master . "main")
 	 (flycheck-disabled-checkers emacs-lisp-checkdoc))))
- )
 
 (custom-set-faces
  ;; custom-set-faces was added by Custom.
  ;; If you edit it by hand, you could mess it up, so be careful.
  ;; Your init file should contain only one such instance.
  ;; If there is more than one, they won't work right.
- )
+ '(python-cell-highlight-face ((t nil))))
 
 (message "Custom master is ready..")
